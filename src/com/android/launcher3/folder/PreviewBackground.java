@@ -194,6 +194,11 @@ public class PreviewBackground extends DelegatedCellDrawing {
         mDotColor = dotColorOption.getColorPreferenceEntry().getLightColor().invoke(context);
         mStrokeColor = ColorTokens.FolderIconBorderColor.resolveColor(context);
         mBgColor = LawnchairUtilsKt.resolveFolderPreviewColor(context);
+        if (app.lawnchair.ui.glass.GlassDock.isGlassAvailable(context)) {
+            // Frosted-glass look for closed folders (a translucent disc with a light rim).
+            mBgColor = 0x4DFFFFFF;
+            mStrokeColor = 0x80FFFFFF;
+        }
         ta.recycle();
 
         DeviceProfile grid = activity.getDeviceProfile();
