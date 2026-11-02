@@ -33,6 +33,7 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.drawable.toBitmap
+import app.lawnchair.preferences.PreferenceManager
 import app.lawnchair.util.FileAccessManager
 import app.lawnchair.util.FileAccessState
 import com.kyant.backdrop.backdrops.layerBackdrop
@@ -156,7 +157,15 @@ private fun glassComposeView(context: Context, content: @Composable (State<Offse
 }
 
 /** True when real glass can be drawn: API 33+ and the wallpaper is readable. */
-fun isGlassAvailable(context: Context): Boolean = GlassSupported && GlassWallpaper.canRead(context)
+fun isGlassAvailable(context: Context): Boolean =
+    GlassSupported && PreferenceManager.getInstance(context).glassEnabled.get() && GlassWallpaper.canRead(context)
+
+/** Applies the user's blur / darkness settings to a style and tint. */
+private fun GlassStyle.userScaled(context: Context): GlassStyle =
+    copy(blur = blur * PreferenceManager.getInstance(context).glassBlur.get())
+
+private fun Context.glassTint(base: Float): Color =
+    Color.Black.copy(alpha = (base * PreferenceManager.getInstance(this).glassTint.get()).coerceIn(0f, 0.8f))
 
 /**
  * A Compose view that draws the dock as liquid glass over the wallpaper.
@@ -167,14 +176,14 @@ fun createGlassDockView(context: Context, cornerRadiusPx: Float): View? {
     val dm = context.resources.displayMetrics
     // Capsule-like by default; a larger custom radius from settings wins.
     val radius = maxOf(cornerRadiusPx / dm.density, 36f).dp
-    return glassComposeView(context) { o -> GlassPanel(o, DockStyle, RoundedCornerShape(radius), small = true, edges = true) }
+    return glassComposeView(context) { o -> GlassPanel(o, DockStyle.userScaled(context), RoundedCornerShape(radius), small = true, edges = true) }
 }
 
 /** A full-screen glass sheet for behind the app drawer. Returns null when glass can't be drawn. */
 fun createGlassSheetView(context: Context): View? {
     if (!isGlassAvailable(context)) return null
     return glassComposeView(context) { o ->
-        GlassPanel(o, SheetStyle, RoundedCornerShape(0.dp), small = false, edges = false, tint = Color.Black.copy(alpha = 0.30f))
+        GlassPanel(o, SheetStyle.userScaled(context), RoundedCornerShape(0.dp), small = false, edges = false, tint = context.glassTint(0.30f))
     }
 }
 
@@ -183,8 +192,8 @@ fun createGlassDrawerSheetView(context: Context): View? {
     if (!isGlassAvailable(context)) return null
     return glassComposeView(context) { o ->
         GlassPanel(
-            o, SheetStyle, RoundedCornerShape(topStart = 28.dp, topEnd = 28.dp),
-            small = false, edges = true, tint = Color.Black.copy(alpha = 0.20f),
+            o, SheetStyle.userScaled(context), RoundedCornerShape(topStart = 28.dp, topEnd = 28.dp),
+            small = false, edges = true, tint = context.glassTint(0.20f),
         )
     }
 }
@@ -194,8 +203,8 @@ fun createGlassFolderView(context: Context): View? {
     if (!isGlassAvailable(context)) return null
     return glassComposeView(context) { o ->
         GlassPanel(
-            o, SheetStyle.copy(blur = 22f), RoundedCornerShape(28.dp),
-            small = false, edges = true, tint = Color.Black.copy(alpha = 0.22f),
+            o, SheetStyle.copy(blur = 22f).userScaled(context), RoundedCornerShape(28.dp),
+            small = false, edges = true, tint = context.glassTint(0.22f),
         )
     }
 }
@@ -205,8 +214,8 @@ fun createGlassMenuView(context: Context): View? {
     if (!isGlassAvailable(context)) return null
     return glassComposeView(context) { o ->
         GlassPanel(
-            o, SheetStyle.copy(blur = 18f), RoundedCornerShape(24.dp),
-            small = false, edges = true, tint = Color.Black.copy(alpha = 0.28f),
+            o, SheetStyle.copy(blur = 18f).userScaled(context), RoundedCornerShape(24.dp),
+            small = false, edges = true, tint = context.glassTint(0.28f),
         )
     }
 }

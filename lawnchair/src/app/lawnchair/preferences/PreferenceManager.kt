@@ -114,6 +114,11 @@ class PreferenceManager @Inject constructor(
     val folderRows = IdpIntPref("pref_folderRows", { numFolderRows[INDEX_DEFAULT] }, reloadGrid)
 
     val drawerOpacity = FloatPref("pref_drawerOpacity", .5f, recreate)
+
+    // Liquid glass (OpenLiquidLauncher-2)
+    val glassEnabled = BoolPref("pref_glassEnabled", true, recreate)
+    val glassBlur = FloatPref("pref_glassBlur", 1f, recreate)
+    val glassTint = FloatPref("pref_glassTint", 1f, recreate)
     val coloredBackgroundLightness = FloatPref("pref_coloredBackgroundLightness", 1F)
     val feedProvider = StringPref("pref_feedProvider", "")
     val ignoreFeedWhitelist = BoolPref("pref_ignoreFeedWhitelist", false)

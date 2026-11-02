@@ -1094,4 +1094,12 @@
     <string name="lawnchair_action_failed">Failed to trigger action</string>
 
     <string name="please_wait">Please wait…</string>
+
+    <string name="glass_label">Liquid glass</string>
+    <string name="glass_enable">Liquid glass</string>
+    <string name="glass_enable_description">Dock, app drawer, folders and menus refract and blur your wallpaper. Needs Android 13 or newer and wallpaper access.</string>
+    <string name="glass_blur">Blur</string>
+    <string name="glass_tint">Darkness</string>
+    <string name="glass_wallpaper_access">Allow wallpaper access</string>
+    <string name="glass_wallpaper_access_description">Liquid glass needs to read your wallpaper to refract it.</string>
 </resources>

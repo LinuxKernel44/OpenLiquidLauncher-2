@@ -129,6 +129,8 @@ fun PreferencesDashboard(
             Spacer(modifier = Modifier.height(8.dp))
         }
 
+        GlassPreferenceGroup()
+
         val deckLayout = prefs2.deckLayout.getAdapter()
         PreferenceGroup {
             PreferenceCategory(
