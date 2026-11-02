@@ -68,6 +68,8 @@ androidx-window = "androidx.window:window:1.5.1"
 # Compose
 compose-bom = "androidx.compose:compose-bom:2026.09.00"
 compose-foundation = { module = "androidx.compose.foundation:foundation" }
+kyant-backdrop = "io.github.kyant0:backdrop:2.0.1"
+kyant-shapes = "io.github.kyant0:shapes:1.2.1"
 compose-foundation-layout = { module = "androidx.compose.foundation:foundation-layout" }
 compose-material-icons = "androidx.compose.material:material-icons-extended:1.7.8"
 compose-material3 = "androidx.compose.material3:material3:1.5.0-beta02"
