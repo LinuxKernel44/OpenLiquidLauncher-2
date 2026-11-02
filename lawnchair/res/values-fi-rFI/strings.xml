@@ -79,7 +79,7 @@
         <item quantity="one">%d v</item>
         <item quantity="other">%d v</item>
     </plurals>
-    <string name="managed_by_lawnchair">Lawnchairin hallinnoima</string>
+    <string name="managed_by_lawnchair">OpenLiquidLauncher 2in hallinnoima</string>
     <!-- When mentioning settings UI -->
     <string name="smartspace_preferences">Asetukset</string>
     <string name="settings_button_text">Kotiasetukset</string>
@@ -136,7 +136,7 @@
     <string name="my_folder_label">Minun kansioni</string>
     <string name="sort_active_items_action">Lajittele aktiiviset kohteet</string>
     <!-- A11y description -->
-    <string name="accessibility_service_description">Suorittaakseen tiettyjä toimintoja, kuten lukitakseen puhelimesi, kun käytät jotain elettä, Lawnchair pitää asettaa saavutettavuussovellukseksi.\n\nLawnchair ei seuraa mitään käyttäjän toimintaa, vaikkakin kyseistä lupaa käytetään kaikille saavutettavuussovelluksille. Lawnchair hylkää kaikki tapahtumat, jotka käyttöjärjestelmä lähettää.\n\nJotta Lawnchair voisi lukita puhelimesi tai avata viimeisimpien sovellusten näkymän, se käyttää performGlobalAction saavutettavuuspalvelua.</string>
+    <string name="accessibility_service_description">Suorittaakseen tiettyjä toimintoja, kuten lukitakseen puhelimesi, kun käytät jotain elettä, OpenLiquidLauncher 2 pitää asettaa saavutettavuussovellukseksi.\n\nOpenLiquidLauncher 2 ei seuraa mitään käyttäjän toimintaa, vaikkakin kyseistä lupaa käytetään kaikille saavutettavuussovelluksille. OpenLiquidLauncher 2 hylkää kaikki tapahtumat, jotka käyttöjärjestelmä lähettää.\n\nJotta OpenLiquidLauncher 2 voisi lukita puhelimesi tai avata viimeisimpien sovellusten näkymän, se käyttää performGlobalAction saavutettavuuspalvelua.</string>
     <string name="x_with_y_count">%1$s (%2$d)</string>
     <string name="x_by_y">%1$d &#xd7; %2$d</string>
     <string name="x_and_y">%1$s &amp; %2$s</string>
@@ -177,7 +177,7 @@
     <string name="backup_and_restore_description">Tallenna nykyinen asetus, palauta varmuuskopiot</string>
     <string name="about_label">Tietoja</string>
     <string name="app_info_drop_target_label">Tietoa sovelluksesta</string>
-    <string name="debug_restart_launcher">Uudelleenkäynnistä Lawnchair</string>
+    <string name="debug_restart_launcher">Uudelleenkäynnistä OpenLiquidLauncher 2</string>
     <string name="experimental_features_label">Kokeelliset ominaisuudet</string>
     <!-- Experimental features -->
     <string name="workspace_label">Työtila</string>
@@ -238,7 +238,7 @@
     Notifications
 
     -->
-    <string name="set_default_launcher_tip">Päästäksesi käsiksi pikku alkeisiin ja muihin lisäominaisuuksiin, aseta Lawnchair oletusaloitusnäyttösovellukseksesi.</string>
+    <string name="set_default_launcher_tip">Päästäksesi käsiksi pikku alkeisiin ja muihin lisäominaisuuksiin, aseta OpenLiquidLauncher 2 oletusaloitusnäyttösovellukseksesi.</string>
     <string name="notification_dots">Ilmoituspisteet</string>
     <string name="show_notification_count">Näytä ilmoitusten määrä</string>
     <string name="notification_dots_color">Ilmoituspisteen väri</string>
@@ -436,11 +436,11 @@
     <string name="torch_status_on">Taskulamppu päällä</string>
     <string name="torch_action_off">Sammuta napauttamalla</string>
     <!-- Onboarding strings -->
-    <string name="onboarding_open_settings_title">Aseta Lawnchair</string>
+    <string name="onboarding_open_settings_title">Aseta OpenLiquidLauncher 2</string>
     <string name="onboarding_open_settings_subtitle">Avaa asetukset painamalla aloitusnäyttöä pitkään</string>
-    <string name="onboarding_major_upgrade_title">Tutustu uuteen Lawnchairiin</string>
+    <string name="onboarding_major_upgrade_title">Tutustu uuteen OpenLiquidLauncher 2iin</string>
     <string name="onboarding_major_upgrade_subtitle">Katso mitä uutta</string>
-    <string name="onboarding_welcome">Tervetuloa Lawnchairiin!</string>
+    <string name="onboarding_welcome">Tervetuloa OpenLiquidLauncher 2iin!</string>
     <string name="onboarding_swipe_up">Avaa sovellusvalikko pyyhkäisemällä ylös</string>
     <!-- Smartspacer strings -->
     <string name="maximum_number_of_targets">Kohteiden enimmäismäärä</string>
@@ -451,7 +451,7 @@
     <string name="event_provider_missing_notification_dots">Käyttääksesi <xliff:g example="My Provider" id="providerName">%1$s</xliff:g>, ota ilmoituspisteet käyttöön</string>
     <!-- Toggle button for enabling Smartspace -->
     <string name="smartspace_widget_toggle_label">Näytä aloitusnäytössä</string>
-    <string name="smartspace_widget_toggle_description">At a Glance voidaan lisätä aloitusnäyttöön Lawnchair widgetin avulla</string>
+    <string name="smartspace_widget_toggle_description">At a Glance voidaan lisätä aloitusnäyttöön OpenLiquidLauncher 2 widgetin avulla</string>
     <!-- List of available providers -->
     <string name="smartspace_mode_label">At a Glance -tarjoaja</string>
     <string name="smartspace_mode_google">Google</string>
@@ -543,15 +543,15 @@
     <string name="gesture_handler_open_assistant">Avaa avustajasovellus</string>
     <string name="pick_app_for_gesture">Valitse sovellus</string>
     <string name="dt2s_admin_hint_title">Laitteenhallintasovelluksen oikeudet vaaditaan</string>
-    <string name="dt2s_admin_hint">Sammuttaaksesi puhelimesi kaksoisnapauttamalla, aseta Lawnchair laitteenhallintasovellukseksi. Paina \"Avaa asetukset\", ja sitten \"Aktivoi laitteenhallintasovellus\".</string>
+    <string name="dt2s_admin_hint">Sammuttaaksesi puhelimesi kaksoisnapauttamalla, aseta OpenLiquidLauncher 2 laitteenhallintasovellukseksi. Paina \"Avaa asetukset\", ja sitten \"Aktivoi laitteenhallintasovellus\".</string>
     <string name="dt2s_admin_warning">Eleet, joilla laite laitetaan nukkumaan, poistetaan käytöstä.</string>
     <string name="d2ts_recents_a11y_hint_title">Ota esteettömyyspalvelu käyttöön</string>
     <string name="sleep_a11y_hint">laita laite nukkumaan</string>
     <string name="notifications_fallback_a11y_hint">avaa ilmoituspaneeli</string>
     <string name="quick_settings_a11y_hint">avaa Pika-asetuspaneeli</string>
     <string name="recents_screen_a11y_hint">avaa Viimeisimmät -näyttö</string>
-    <string name="generic_a11y_hint">Jotta voit käyttää %1$s, ota Lawnchairin esteettömyyspalvelu käyttöön napauttamalla \"Avaa asetukset\", valitse Lawnchair ja ota käyttöön \"Käytä Lawnchairia.\"</string>
-    <string name="generic_a11y_disclaimer">Lawnchair käyttää Esteettömyspalvelun `performGlobalAction`-menetelmää tämän toiminnon suorittamiseen. Tämä on arkaluonteinen käyttöoikeus, joka sallii muiden sovellusten valvonnan. Lawnchair ei kuitenkaan ole määritetty tälle toiminnallisuudelle eikä saa mitään tapahtumia.</string>
+    <string name="generic_a11y_hint">Jotta voit käyttää %1$s, ota OpenLiquidLauncher 2in esteettömyyspalvelu käyttöön napauttamalla \"Avaa asetukset\", valitse OpenLiquidLauncher 2 ja ota käyttöön \"Käytä OpenLiquidLauncher 2ia.\"</string>
+    <string name="generic_a11y_disclaimer">OpenLiquidLauncher 2 käyttää Esteettömyspalvelun `performGlobalAction`-menetelmää tämän toiminnon suorittamiseen. Tämä on arkaluonteinen käyttöoikeus, joka sallii muiden sovellusten valvonnan. OpenLiquidLauncher 2 ei kuitenkaan ole määritetty tälle toiminnallisuudelle eikä saa mitään tapahtumia.</string>
     <string name="sleep_mode_label">Lepotila</string>
     <string name="sleep_mode_auto">Automaattinen</string>
     <string name="sleep_mode_root">Root</string>
@@ -562,7 +562,7 @@
     Bug reporting
 
     -->
-    <string name="lawnchair_bug_report">Lawnchairin virheraportti</string>
+    <string name="lawnchair_bug_report">OpenLiquidLauncher 2in virheraportti</string>
     <string name="crash_report_notif_title">%1$s kaatui</string>
     <string name="action_upload_crash_report">Lähetä kaatumisloki</string>
     <string name="action_upload_error">Lähetys epäonnistui</string>
@@ -676,7 +676,7 @@
     <string name="unfolded_label">Taittamaton</string>
     <string name="when_folded_label">Kun taitettu</string>
     <string name="when_unfolded_label">Kun taittamaton</string>
-    <string name="unfolded_grid_description">Lawnchair yhdistää kaksi sivua yhteen täyttääkseen isomman näytön</string>
+    <string name="unfolded_grid_description">OpenLiquidLauncher 2 yhdistää kaksi sivua yhteen täyttääkseen isomman näytön</string>
     <string name="foldable_columns_error">Taitettu arvo on oltava pienempi tai yhtä suuri kuin taittamaton arvo. Tarvittaessa sitä säädetään automaattisesti.</string>
     <string name="hotseat_bottom_space_label">Pohjan marginaali</string>
     <string name="page_indicator_height">Sivun ilmaisimen korkeus</string>
@@ -720,7 +720,7 @@
     <string name="max_folder_columns">Kansion sarakkeiden enimmäismäärä</string>
     <string name="max_folder_rows">Kansion rivien enimmäismäärä</string>
     <!-- Quickstep settings -->
-    <string name="quickswitch_ignored_warning">Näitä asetuksia ei oteta huomioon, koska Lawnchair ei ole asetettu Viimeisimmät-näytön tarjoajaksi</string>
+    <string name="quickswitch_ignored_warning">Näitä asetuksia ei oteta huomioon, koska OpenLiquidLauncher 2 ei ole asetettu Viimeisimmät-näytön tarjoajaksi</string>
     <string name="quickstep_incompatible">Yhteensopimaton järjestelmäintegrointi</string>
     <string name="quickstep_incompatible_description">Laitteesi on konfiguroitu pitämään järjestelmäeleitä, jotka tunnetaan nimellä Quickstep, jonka tarjoaa %1$s, mutta tämä %1$s versio ei ole yhteensopiva sinun Android-version kanssa. Jatkaaksesi laitteen käyttöä, poista %1$s päivitykset tai poista %1$s käytöstä järjestelmän eleen tarjoajana.</string>
     <string name="translucent_background">Läpinäkyvä tausta</string>

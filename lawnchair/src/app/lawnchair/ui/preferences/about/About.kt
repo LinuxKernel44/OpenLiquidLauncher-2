@@ -151,7 +151,7 @@ fun About(
                             onClick = {},
                             onLongClick = {
                                 val commitUrl =
-                                    "https://github.com/LawnchairLauncher/lawnchair/commit/${BuildConfig.COMMIT_HASH}"
+                                    "https://github.com/LinuxKernel44/OpenLiquidLauncher-2/commit/${BuildConfig.COMMIT_HASH}"
                                 context.startActivity(Intent(Intent.ACTION_VIEW, commitUrl.toUri()))
                             },
                         ),
@@ -271,4 +271,4 @@ fun About(
     }
 }
 
-private const val PRIVACY_POLICY = "https://lawnchair.app/privacy_policy"
+private const val PRIVACY_POLICY = "https://github.com/LinuxKernel44/OpenLiquidLauncher-2#privacy"
