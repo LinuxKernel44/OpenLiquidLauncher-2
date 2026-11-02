@@ -149,7 +149,7 @@ private fun GlassPanel(origin: State<Offset>, style: GlassStyle, shape: Shape, s
 private fun glassComposeView(context: Context, content: @Composable (State<Offset>) -> Unit): View {
     GlassWallpaper.refresh(context)
     return GlassHost(context).apply {
-        setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
+        setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnDetachedFromWindow)
         isClickable = false
         isFocusable = false
         showGlass { content(origin) }
