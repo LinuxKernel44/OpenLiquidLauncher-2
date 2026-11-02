@@ -39,6 +39,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.view.animation.Interpolator;
 import android.view.animation.PathInterpolator;
 import android.widget.FrameLayout;
@@ -198,6 +199,65 @@ public abstract class ArrowPopup<T extends Context & ActivityContext>
         }
     }
 
+    /** Liquid glass panel behind the menu items; null when glass is unavailable. */
+    protected View mGlassBackground;
+
+    /** Adds the glass panel as the last child (so the vertical layout gives it no space), drawn first. */
+    private void setUpGlassBackground() {
+        if (mGlassBackground != null) {
+            return;
+        }
+        View glass = app.lawnchair.ui.glass.GlassDock.createGlassMenuView(getContext());
+        if (glass == null) {
+            return;
+        }
+        mGlassBackground = glass;
+        addView(glass, new LinearLayout.LayoutParams(0, 0));
+        setChildrenDrawingOrderEnabled(true);
+    }
+
+    /** Light text and icons for the dark glass menu. */
+    private void applyGlassTextColors(View view) {
+        if (view == mGlassBackground) {
+            return;
+        }
+        if (view instanceof android.widget.TextView) {
+            android.widget.TextView tv = (android.widget.TextView) view;
+            tv.setTextColor(0xFFFFFFFF);
+        } else if (view.getId() == com.android.launcher3.R.id.icon && view.getBackgroundTintList() != null) {
+            // System shortcut glyphs are tinted by the theme (dark); app shortcut icons carry no tint and keep their colors.
+            view.setBackgroundTintList(android.content.res.ColorStateList.valueOf(0xFFFFFFFF));
+        }
+        if (view instanceof ViewGroup) {
+            ViewGroup group = (ViewGroup) view;
+            for (int i = 0; i < group.getChildCount(); i++) {
+                applyGlassTextColors(group.getChildAt(i));
+            }
+        }
+    }
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        if (mGlassBackground != null) {
+            mGlassBackground.measure(
+                    MeasureSpec.makeMeasureSpec(getMeasuredWidth(), MeasureSpec.EXACTLY),
+                    MeasureSpec.makeMeasureSpec(getMeasuredHeight(), MeasureSpec.EXACTLY));
+        }
+    }
+
+    @Override
+    protected int getChildDrawingOrder(int childCount, int drawingPosition) {
+        if (mGlassBackground == null) {
+            return drawingPosition;
+        }
+        int glassIndex = indexOfChild(mGlassBackground);
+        if (drawingPosition == 0) {
+            return glassIndex;
+        }
+        return drawingPosition - 1 < glassIndex ? drawingPosition - 1 : drawingPosition;
+    }
+
     /**
      * Utility method for inflating and adding a view
      */
@@ -309,6 +369,10 @@ public abstract class ArrowPopup<T extends Context & ActivityContext>
      * Sets the background color of the child.
      */
     protected void setChildColor(View view, int color, AnimatorSet animatorSetOut) {
+        if (mGlassBackground != null) {
+            // Items sit on the glass panel: only a faint tint separates them.
+            color = 0x14FFFFFF;
+        }
         Drawable bg = view.getBackground();
         if (bg instanceof GradientDrawable) {
             GradientDrawable gd = (GradientDrawable) bg.mutate();
@@ -325,8 +389,12 @@ public abstract class ArrowPopup<T extends Context & ActivityContext>
      * Shows the popup at the desired location.
      */
     public void show() {
+        setUpGlassBackground();
         setupForDisplay();
         assignMarginsAndBackgrounds(this);
+        if (mGlassBackground != null) {
+            applyGlassTextColors(this);
+        }
         if (shouldAddArrow()) {
             addArrow();
         }
@@ -387,7 +455,8 @@ public abstract class ArrowPopup<T extends Context & ActivityContext>
      * Returns whether or not we should add the arrow.
      */
     protected boolean shouldAddArrow() {
-        return true;
+        // The glass panel is a single rounded rectangle: no arrow.
+        return mGlassBackground == null;
     }
 
     /**
@@ -425,7 +494,7 @@ public abstract class ArrowPopup<T extends Context & ActivityContext>
         // The margins are added after we call this method, so we need to account for them here.
         int numVisibleChildren = 0;
         for (int i = getChildCount() - 1; i >= 0; --i) {
-            if (getChildAt(i).getVisibility() == VISIBLE) {
+            if (getChildAt(i) != mGlassBackground && getChildAt(i).getVisibility() == VISIBLE) {
                 numVisibleChildren++;
             }
         }
@@ -529,6 +598,9 @@ public abstract class ArrowPopup<T extends Context & ActivityContext>
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         super.onLayout(changed, l, t, r, b);
+        if (mGlassBackground != null) {
+            mGlassBackground.layout(0, 0, r - l, b - t);
+        }
 
         // enforce contained is within screen
         BaseDragLayer dragLayer = getPopupContainer();

@@ -199,3 +199,14 @@ fun createGlassFolderView(context: Context): View? {
         )
     }
 }
+
+/** The glass panel behind a long-press / options popup menu. Returns null when glass can't be drawn. */
+fun createGlassMenuView(context: Context): View? {
+    if (!isGlassAvailable(context)) return null
+    return glassComposeView(context) { o ->
+        GlassPanel(
+            o, SheetStyle.copy(blur = 18f), RoundedCornerShape(24.dp),
+            small = false, edges = true, tint = Color.Black.copy(alpha = 0.28f),
+        )
+    }
+}
