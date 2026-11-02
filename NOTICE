@@ -1,0 +1,7 @@
+OpenLiquidLauncher-2
+Fork non commercial de Lawnchair (Apache License 2.0, voir LICENSE.txt).
+
+Basé sur:
+- Lawnchair, Copyright (c) 2024 Lawnchair - https://github.com/LawnchairLauncher/lawnchair
+- Launcher3 / AOSP, Copyright (c) 2005-2008 The Android Open Source Project
+- AndroidLiquidGlass (Kyant0), à intégrer - https://github.com/Kyant0/AndroidLiquidGlass
