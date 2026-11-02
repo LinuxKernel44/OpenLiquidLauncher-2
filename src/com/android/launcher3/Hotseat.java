@@ -201,7 +201,30 @@ public class Hotseat extends FrameLayout implements Insettable {
         setClipToPadding(false);
     }
 
+    private View mGlassBackground;
+    private final android.graphics.Rect mGlassInsets = new android.graphics.Rect();
+
     private void setUpBackground() {
+        // Liquid glass dock (needs Android 13+ and wallpaper access); replaces the stock background when available.
+        float glassRadius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
+                PreferenceCacheExtensionsKt.firstCached(preferenceManager2.getHotseatBackgroundCornerRadius()),
+                getResources().getDisplayMetrics());
+        View glass = app.lawnchair.ui.glass.GlassDock.createGlassDockView(getContext(), glassRadius);
+        if (glass != null) {
+            mGlassBackground = glass;
+            mGlassInsets.set(preferenceManager.getHotseatBGHorizontalInsetLeft().get(),
+                    preferenceManager.getHotseatBGVerticalInsetTop().get(),
+                    preferenceManager.getHotseatBGHorizontalInsetRight().get(),
+                    preferenceManager.getHotseatBGVerticalInsetBottom().get());
+            if (mGlassInsets.isEmpty() && mGlassInsets.left == 0 && mGlassInsets.top == 0
+                    && mGlassInsets.right == 0 && mGlassInsets.bottom == 0) {
+                // No custom insets: float the glass dock like a capsule instead of spanning the screen edge to edge.
+                float d = getResources().getDisplayMetrics().density;
+                mGlassInsets.set((int) (10 * d), (int) (6 * d), (int) (10 * d), (int) (10 * d));
+            }
+            addView(glass, 0);
+            return;
+        }
         if(!preferenceManager.getHotseatBG().get()) return;
 
         var bgColor = PreferenceCacheExtensionsKt.firstCached(preferenceManager2.getHotseatBackgroundColor());
@@ -507,6 +530,11 @@ public class Hotseat extends FrameLayout implements Insettable {
         int widthSize = MeasureSpec.getSize(widthMeasureSpec);
         int heightSize = MeasureSpec.getSize(heightMeasureSpec);
         setMeasuredDimension(widthSize, heightSize);
+        if (mGlassBackground != null) {
+            mGlassBackground.measure(
+                    makeMeasureSpec(Math.max(0, widthSize - mGlassInsets.left - mGlassInsets.right), MeasureSpec.EXACTLY),
+                    makeMeasureSpec(Math.max(0, heightSize - mGlassInsets.top - mGlassInsets.bottom), MeasureSpec.EXACTLY));
+        }
 
         int paddingLeft = getPaddingLeft();
         int paddingRight = getPaddingRight();
@@ -549,6 +577,10 @@ public class Hotseat extends FrameLayout implements Insettable {
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         int width = r - l;
         int height = b - t;
+        if (mGlassBackground != null) {
+            mGlassBackground.layout(mGlassInsets.left, mGlassInsets.top,
+                    width - mGlassInsets.right, height - mGlassInsets.bottom);
+        }
         int paddingLeft = getPaddingLeft();
         int paddingRight = getPaddingRight();
         int paddingTop = getPaddingTop();
