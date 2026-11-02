@@ -54,6 +54,7 @@ import app.lawnchair.qsb.rememberAllAppsQsbState
 import app.lawnchair.search.LawnchairRecentSuggestionProvider
 import app.lawnchair.search.algorithms.LawnchairSearchAlgorithm
 import app.lawnchair.theme.color.tokens.ColorTokens
+import app.lawnchair.ui.glass.isGlassAvailable
 import app.lawnchair.ui.theme.LawnchairTheme
 import app.lawnchair.util.ProvideLifecycleState
 import com.android.launcher3.DeviceProfile
@@ -184,7 +185,10 @@ class AllAppsSearchInput(context: Context, attrs: AttributeSet?) :
                     showLens = lensIntent != null,
                 )
 
-                val backgroundColor = if (supportBlur) {
+                val backgroundColor = if (isGlassAvailable(context)) {
+                    // Frosted pill over the liquid glass drawer.
+                    Color.argb(150, 255, 255, 255)
+                } else if (supportBlur) {
                     ColorTokens.SearchboxHighlightBlur.resolveColor(context)
                 } else {
                     ColorTokens.SearchboxHighlight.resolveColor(context)

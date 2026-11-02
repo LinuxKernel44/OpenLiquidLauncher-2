@@ -89,7 +89,10 @@ public class AppsDividerView extends View implements FloatingHeaderRow {
         mStrokeColor = Flags.allAppsBlur()
                 ? Themes.getAttrColor(context, R.attr.bottomSheetDragHandleColor)
                 : context.getColor(R.color.materialColorOutlineVariant);
-        mAllAppsLabelTextColor = context.getColor(R.color.materialColorOnSurface);
+        // The liquid glass drawer is dark: use a light label there.
+        mAllAppsLabelTextColor = app.lawnchair.ui.glass.GlassDock.isGlassAvailable(context)
+                ? 0xCCFFFFFF
+                : context.getColor(R.color.materialColorOnSurface);
 
         mAccessibilityManager = AccessibilityManager.getInstance(context);
         setShowAllAppsLabel(!ALL_APPS_VISITED_COUNT.hasReachedMax(context));
