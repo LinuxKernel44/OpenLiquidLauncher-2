@@ -53,6 +53,7 @@ import app.lawnchair.preferences2.PreferenceManager2
 import app.lawnchair.preferences2.firstCached
 import app.lawnchair.theme.color.ColorOption
 import app.lawnchair.theme.color.tokens.ColorTokens
+import app.lawnchair.ui.glass.isGlassAvailable
 import com.android.launcher3.BaseActivity
 import com.android.launcher3.BuildConfig
 import com.android.launcher3.R
@@ -152,7 +153,8 @@ fun overrideAllAppsTextColor(textView: TextView) {
     val context = textView.context
     val luminance = getAllAppsBaseColor(context, ColorTokens.AllAppsScrimColor.resolveColor(context)).luminance
     val opacity = PreferenceManager.getInstance(context).drawerOpacity.get()
-    if (luminance > 0.5f || opacity <= 0.3f) {
+    // The liquid glass drawer is dark and translucent, so it always gets the light-on-wallpaper text color.
+    if (luminance > 0.5f || opacity <= 0.3f || isGlassAvailable(context)) {
         textView.setTextColor(Themes.getAttrColor(context, R.attr.allAppsAlternateTextColor))
     }
 }

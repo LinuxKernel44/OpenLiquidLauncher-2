@@ -67,7 +67,7 @@ fun Modifier.liquidGlass(
             if (q >= 1) vibrancy()
             val blurK = (if (q >= 4) 1.25f else 1f) * (1f - 0.7f * d)
             if (style.blur * blurK > 0f) blur((style.blur * blurK).dp.toPx())
-            if (q >= 1) {
+            if (q >= 1 && style.refractionHeight > 0f) {
                 // The lens ring is capped to 30% of the shorter side, or the ends of wide capsules smear.
                 val maxH = minOf(size.width, size.height) * 0.30f
                 val h = minOf((style.refractionHeight * (1f + 0.8f * d)).dp.toPx(), maxH)

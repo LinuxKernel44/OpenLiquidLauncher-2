@@ -241,6 +241,9 @@ public class AllAppsTransitionController
         float shiftRange = fromBackground ? mLauncher.getDeviceProfile().getDeviceProperties().getHeightPx() : mShiftRange;
         getAppsViewProgressTranslationY().setValue(mProgress * shiftRange);
         mLauncher.onAllAppsTransition(1 - progress);
+        if (!mShouldShowAllAppsOnSheet && mScrimView instanceof app.lawnchair.views.LawnchairScrimView) {
+            ((app.lawnchair.views.LawnchairScrimView) mScrimView).setGlassProgress(1 - progress);
+        }
 
         boolean hasScrim = progress < NAV_BAR_COLOR_FORCE_UPDATE_THRESHOLD
                 && mLauncher.getAppsView().getNavBarScrimHeight() > 0;

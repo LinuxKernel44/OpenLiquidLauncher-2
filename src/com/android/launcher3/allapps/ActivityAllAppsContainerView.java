@@ -183,6 +183,7 @@ public class ActivityAllAppsContainerView<T extends Context & ActivityContext>
     protected FloatingHeaderView mHeader;
     protected final List<AllAppsRow> mAdditionalHeaderRows = new ArrayList<>();
     protected View mBottomSheetBackground;
+    private View mGlassSheet;
     protected RecyclerViewFastScroller mFastScroller;
     private ConstraintLayout mFastScrollLetterLayout;
 
@@ -370,6 +371,7 @@ public class ActivityAllAppsContainerView<T extends Context & ActivityContext>
         // LC-Note: Update our allapps cached colour
         updateBottomSheetBackgroundColor();
 
+        setUpGlassSheet();
         updateBackgroundVisibility(mActivityContext.getDeviceProfile());
         mSearchUiManager.initializeSearch(this);
     }
@@ -1233,9 +1235,22 @@ public class ActivityAllAppsContainerView<T extends Context & ActivityContext>
         }
     }
 
+    /** Liquid glass replaces the sheet's flat fill when available (Android 13+, wallpaper access). */
+    private void setUpGlassSheet() {
+        View glass = app.lawnchair.ui.glass.GlassDock.createGlassDrawerSheetView(getContext());
+        if (glass == null) return;
+        mGlassSheet = glass;
+        android.view.ViewGroup.LayoutParams lp = mBottomSheetBackground.getLayoutParams();
+        addView(glass, indexOfChild(mBottomSheetBackground) + 1,
+                new android.widget.RelativeLayout.LayoutParams(lp));
+    }
+
     protected void updateBackgroundVisibility(DeviceProfile deviceProfile) {
         mBottomSheetBackground.setVisibility(
                 deviceProfile.shouldShowAllAppsOnSheet() ? View.VISIBLE : View.GONE);
+        if (mGlassSheet != null) {
+            mGlassSheet.setVisibility(mBottomSheetBackground.getVisibility());
+        }
         // Note: The opaque sheet background and header protection are added in drawOnScrim.
         // For the taskbar entrypoint, the scrim is drawn by its abstract slide in view container,
         // so its header protection is derived from this scrim instead.
@@ -1673,7 +1688,9 @@ public class ActivityAllAppsContainerView<T extends Context & ActivityContext>
                     bottomWithOffset);
             mTmpPath.reset();
             mTmpPath.addRoundRect(mTmpRectF, mBottomSheetCornerRadii, Direction.CW);
-            canvas.drawPath(mTmpPath, mHeaderPaint);
+            if (mGlassSheet == null) {
+                canvas.drawPath(mTmpPath, mHeaderPaint);
+            }
 
             // When the background panel is blurred (or fallback), we don't add header protection.
             // TODO (b/414671116): Apply header protection whenever search bar is focused.
