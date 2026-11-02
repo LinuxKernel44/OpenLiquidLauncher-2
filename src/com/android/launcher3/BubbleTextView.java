@@ -300,6 +300,10 @@ public class BubbleTextView extends TextView implements ItemInfoUpdateReceiver,
             setTextSize(TypedValue.COMPLEX_UNIT_PX, mDeviceProfile.folderChildTextSizePx);
             setCompoundDrawablePadding(mDeviceProfile.folderChildDrawablePaddingPx);
             defaultIconSize = mDeviceProfile.folderChildIconSizePx;
+            if (app.lawnchair.ui.glass.GlassDock.isGlassAvailable(getContext())) {
+                // Opened folders are dark liquid glass: light labels.
+                setTextColor(0xFFFFFFFF);
+            }
         } else if (mDisplay == DISPLAY_SEARCH_RESULT) {
             setTextSize(TypedValue.COMPLEX_UNIT_PX,
                     mDeviceProfile.getAllAppsProfile().getIconTextSizePx());

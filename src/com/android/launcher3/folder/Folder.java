@@ -296,6 +296,8 @@ public class Folder extends AbstractFloatingView implements ClipPathView, DragSo
     private KeyboardInsetAnimationCallback mKeyboardInsetAnimationCallback;
 
     private @NonNull GradientDrawable mBackground;
+    /** Liquid glass panel behind the folder content; null when glass is unavailable. */
+    private View mGlassBackground;
 
     PreferenceManager2 preferenceManager2;
 
@@ -343,6 +345,13 @@ public class Folder extends AbstractFloatingView implements ClipPathView, DragSo
         var alpha = LawnchairUtilsKt.getFolderBackgroundAlpha(getContext());
         mBackground.setAlpha(alpha);
 
+        // Liquid glass panel: added last so the vertical layout never gives it space, drawn first via the child order.
+        mGlassBackground = app.lawnchair.ui.glass.GlassDock.createGlassFolderView(getContext());
+        if (mGlassBackground != null) {
+            addView(mGlassBackground, new LinearLayout.LayoutParams(0, 0));
+            setChildrenDrawingOrderEnabled(true);
+        }
+
         mContent = findViewById(R.id.folder_content);
         mContent.setPadding(paddingLeftRight, dp.folderContentPaddingTop, paddingLeftRight, 0);
         mContent.setFolder(this);
@@ -355,6 +364,10 @@ public class Folder extends AbstractFloatingView implements ClipPathView, DragSo
             mFolderName.setTypeface(Typeface.create("google-sans-flex", Typeface.NORMAL));
         }
         mFolderName.setTextSize(TypedValue.COMPLEX_UNIT_PX, dp.folderLabelTextSizePx);
+        if (mGlassBackground != null) {
+            mFolderName.setTextColor(0xFFFFFFFF);
+            mFolderName.setHintTextColor(0xB3FFFFFF);
+        }
         mFolderName.setOnBackKeyListener(this);
         mFolderName.setOnEditorActionListener(this);
         mFolderName.setSelectAllOnFocus(true);
@@ -1473,6 +1486,31 @@ public class Folder extends AbstractFloatingView implements ClipPathView, DragSo
         int folderWidth = getPaddingLeft() + getPaddingRight() + contentWidth;
         int folderHeight = getFolderHeight(contentHeight);
         setMeasuredDimension(folderWidth, folderHeight);
+        if (mGlassBackground != null) {
+            mGlassBackground.measure(MeasureSpec.makeMeasureSpec(folderWidth, MeasureSpec.EXACTLY),
+                    MeasureSpec.makeMeasureSpec(folderHeight, MeasureSpec.EXACTLY));
+        }
+    }
+
+    @Override
+    protected void onLayout(boolean changed, int l, int t, int r, int b) {
+        super.onLayout(changed, l, t, r, b);
+        if (mGlassBackground != null) {
+            mGlassBackground.layout(0, 0, r - l, b - t);
+        }
+    }
+
+    @Override
+    protected int getChildDrawingOrder(int childCount, int drawingPosition) {
+        if (mGlassBackground == null) {
+            return drawingPosition;
+        }
+        // The glass panel is the last child but must be drawn first.
+        int glassIndex = indexOfChild(mGlassBackground);
+        if (drawingPosition == 0) {
+            return glassIndex;
+        }
+        return drawingPosition - 1 < glassIndex ? drawingPosition - 1 : drawingPosition;
     }
 
     /**
@@ -2027,7 +2065,9 @@ public class Folder extends AbstractFloatingView implements ClipPathView, DragSo
             // clipPath is non-null while clip reveal animation is playing
             int count = canvas.save();
             canvas.clipPath(mClipPath.getPath());
-            mBackground.draw(canvas);
+            if (mGlassBackground == null) {
+                mBackground.draw(canvas);
+            }
             if (!mIsAnimatingClosed) {
                 // If animating open, clip the content to the clip path to keep in bounds.
                 super.dispatchDraw(canvas);
@@ -2038,7 +2078,9 @@ public class Folder extends AbstractFloatingView implements ClipPathView, DragSo
                 super.dispatchDraw(canvas);
             }
         } else {
-            mBackground.draw(canvas);
+            if (mGlassBackground == null) {
+                mBackground.draw(canvas);
+            }
             super.dispatchDraw(canvas);
         }
     }

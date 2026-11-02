@@ -188,3 +188,14 @@ fun createGlassDrawerSheetView(context: Context): View? {
         )
     }
 }
+
+/** The glass panel behind an opened folder (all corners rounded). Returns null when glass can't be drawn. */
+fun createGlassFolderView(context: Context): View? {
+    if (!isGlassAvailable(context)) return null
+    return glassComposeView(context) { o ->
+        GlassPanel(
+            o, SheetStyle.copy(blur = 22f), RoundedCornerShape(28.dp),
+            small = false, edges = true, tint = Color.Black.copy(alpha = 0.22f),
+        )
+    }
+}
